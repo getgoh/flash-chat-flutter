@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "57982353519",
+    "firebase_url": "https://flash-chat-e567e.firebaseio.com",
+    "project_id": "flash-chat-e567e",
+    "storage_bucket": "flash-chat-e567e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57982353519:android:b7ebff7837416b8ec94d9a",
+        "android_client_info": {
+          "package_name": "com.xalles.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57982353519-qpadm7qodgelin4t32jmd3ic7bvk7ag0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4PdgbLsuEzyZXqEqxav7TSOFcyMcIb9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57982353519-qpadm7qodgelin4t32jmd3ic7bvk7ag0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
