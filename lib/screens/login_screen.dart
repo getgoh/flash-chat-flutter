@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat/components/input_text_field.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
+import 'package:flash_chat/helpers/shared_prefs.dart';
+import 'package:flash_chat/models/user.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
+  final _fireStore = Firestore.instance;
   bool showSpinner = false;
   String email;
   String password;
@@ -41,30 +47,24 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 48.0,
               ),
-              TextField(
-                onChanged: (value) {
+              InputTextField(
+                hintText: 'Enter your email',
+                inputType: TextInputType.emailAddress,
+                prefixIcon: Icons.email,
+                onTextChanged: (value) {
                   email = value;
                 },
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                style: kTextFieldTextStyle,
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your email',
-                ),
               ),
               SizedBox(
                 height: 8.0,
               ),
-              TextField(
-                onChanged: (value) {
+              InputTextField(
+                hintText: 'Enter your password',
+                obscureText: true,
+                prefixIcon: FontAwesomeIcons.eye,
+                onTextChanged: (value) {
                   password = value;
                 },
-                textAlign: TextAlign.center,
-                obscureText: true,
-                style: kTextFieldTextStyle,
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password',
-                ),
               ),
               SizedBox(
                 height: 24.0,
@@ -80,6 +80,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     final user = await _auth.signInWithEmailAndPassword(
                         email: email, password: password);
                     if (user != null) {
+                      // get user from 'users' documents
+                      final QuerySnapshot result = await _fireStore
+                          .collection('users')
+                          .where('id', isEqualTo: user.user.uid)
+                          .getDocuments();
+
+                      DocumentSnapshot fsUser = result.documents[0];
+
+                      // save user info to sharedPref
+                      SharedPrefs.saveLoggedInUser(fsUser);
+
                       Navigator.pushNamed(context, ChatScreen.id);
                     }
                   } catch (ex) {

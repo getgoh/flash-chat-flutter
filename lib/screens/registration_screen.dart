@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flash_chat/components/input_text_field.dart';
 import 'package:flash_chat/components/rounded_button.dart';
+import 'package:flash_chat/helpers/shared_prefs.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -14,9 +19,14 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
+  final _fireStore = Firestore.instance;
   bool showSpinner = false;
   String email;
   String password;
+  String aboutMe;
+  String name;
+  String imgUrl =
+      'https://avatars3.githubusercontent.com/u/22161412?s=400&u=17d683b09765f988487f6878c1190a9877dabaa5&v=4';
 
   @override
   Widget build(BuildContext context) {
@@ -35,36 +45,71 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
-                    child: Image.asset('images/logo.png'),
+                    child: Image.asset(
+                      'images/logo.png',
+                    ),
                   ),
                 ),
               ),
               SizedBox(
                 height: 48.0,
               ),
-              TextField(
-                onChanged: (value) {
+              InputTextField(
+                hintText: 'Enter your email',
+                inputType: TextInputType.emailAddress,
+                prefixIcon: Icons.email,
+                onTextChanged: (value) {
                   email = value;
                 },
-                keyboardType: TextInputType.emailAddress,
-                textAlign: TextAlign.center,
-                style: kTextFieldTextStyle,
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your email',
-                ),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              InputTextField(
+                hintText: 'Enter your password',
+                obscureText: true,
+                prefixIcon: FontAwesomeIcons.eye,
+                onTextChanged: (value) {
+                  password = value;
+                },
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              InputTextField(
+                hintText: 'Enter your nickname',
+                prefixIcon: Icons.font_download,
+                onTextChanged: (value) {
+                  name = value;
+                },
               ),
               SizedBox(
                 height: 8.0,
               ),
               TextField(
                 onChanged: (value) {
-                  password = value;
+                  aboutMe = value;
                 },
                 textAlign: TextAlign.center,
-                obscureText: true,
+                maxLines: 3,
+                keyboardType: TextInputType.multiline,
                 style: kTextFieldTextStyle,
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password',
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.only(top: 15),
+                  hintText: 'Enter description',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12.0),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Colors.blueAccent, width: 1.0),
+                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  ),
                 ),
               ),
               SizedBox(
@@ -83,6 +128,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     if (newUser != null) {
                       print('user not null');
+
+                      // add user info
+                      _fireStore
+                          .collection('users')
+                          .document(newUser.user.uid)
+                          .setData(
+                        {
+                          'name': name,
+                          'id': newUser.user.uid,
+                          'about': aboutMe,
+                          'imgUrl': imgUrl,
+                          'email': email
+                        },
+                      );
+
+                      // TODO: save user info to sharedPref
+//                      SharedPrefs.saveLoggedInUser(fsUser);
+
                       Navigator.pushNamed(context, ChatScreen.id);
                     } else {
                       print('user null');

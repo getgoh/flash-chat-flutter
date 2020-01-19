@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/helpers/shared_prefs.dart';
+import 'package:flash_chat/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -44,9 +46,16 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.close),
-              onPressed: () {
-                _auth.signOut();
-                Navigator.pop(context);
+              onPressed: () async {
+                User currUser = await SharedPrefs.getLoggedInUser();
+                print(currUser.name);
+                print(currUser.id);
+                print(currUser.email);
+                print(currUser.imgUrl);
+                print(currUser.about);
+
+//                _auth.signOut();
+//                Navigator.pop(context);
               }),
         ],
         title: Text('⚡️Chat'),
