@@ -27,7 +27,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String aboutMe;
   String name;
   String imgUrl =
-      'https://avatars3.githubusercontent.com/u/22161412?s=400&u=17d683b09765f988487f6878c1190a9877dabaa5&v=4';
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png';
 
   @override
   Widget build(BuildContext context) {

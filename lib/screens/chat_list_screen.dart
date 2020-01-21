@@ -31,9 +31,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
   }
 
   void getUserGroups() async {
-    setState(() async {
-      loggedInUser = await SharedPrefs.getLoggedInUser();
-    });
+    loggedInUser = await SharedPrefs.getLoggedInUser();
+    setState(() {});
 
 //    print('User: ${loggedInUser.groups}');
 
@@ -60,13 +59,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: MessagesStream(),
+        body: ChatListMessagesStream(),
       ),
     );
   }
 }
 
-class MessagesStream extends StatelessWidget {
+class ChatListMessagesStream extends StatelessWidget {
   getUser() async {
     if (loggedInUser == null) {
       loggedInUser = await SharedPrefs.getLoggedInUser();

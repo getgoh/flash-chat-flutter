@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         email: fsUser['email'],
                         name: fsUser['name'],
                         about: fsUser['about'],
-                        groups: List.castFrom(fsUser['groups']),
+                        groups: List.castFrom(fsUser['groups'] ?? []),
                       );
 
                       Navigator.pushNamed(context, ChatListScreen.id);
