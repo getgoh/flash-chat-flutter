@@ -4,6 +4,7 @@ import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flash_chat/helpers/shared_prefs.dart';
 import 'package:flash_chat/models/user.dart';
+import 'package:flash_chat/screens/chat_list_screen.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,9 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       DocumentSnapshot fsUser = result.documents[0];
 
                       // save user info to sharedPref
-                      SharedPrefs.saveLoggedInUser(fsUser);
+                      SharedPrefs.saveLoggedInUser(
+                        id: fsUser['id'],
+                        imgUrl: fsUser['imgUrl'],
+                        email: fsUser['email'],
+                        name: fsUser['name'],
+                        about: fsUser['about'],
+                        groups: List.castFrom(fsUser['groups']),
+                      );
 
-                      Navigator.pushNamed(context, ChatScreen.id);
+                      Navigator.pushNamed(context, ChatListScreen.id);
                     }
                   } catch (ex) {
                     print(ex);

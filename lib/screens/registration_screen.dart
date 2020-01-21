@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flash_chat/components/input_text_field.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/helpers/shared_prefs.dart';
+import 'package:flash_chat/screens/chat_list_screen.dart';
 import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -128,6 +129,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                     if (newUser != null) {
                       print('user not null');
+                      print(newUser.user.uid);
+
+//                      final QuerySnapshot result = await _fireStore
+//                          .collection('users')
+//                          .where('id', isEqualTo: newUser.user.uid)
+//                          .getDocuments();
 
                       // add user info
                       _fireStore
@@ -143,10 +150,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         },
                       );
 
-                      // TODO: save user info to sharedPref
-//                      SharedPrefs.saveLoggedInUser(fsUser);
+                      SharedPrefs.saveLoggedInUser(
+                        id: newUser.user.uid,
+                        imgUrl: imgUrl,
+                        email: email,
+                        name: name,
+                        about: aboutMe,
+                        groups: [],
+                      );
 
-                      Navigator.pushNamed(context, ChatScreen.id);
+                      Navigator.pushNamed(context, ChatListScreen.id);
                     } else {
                       print('user null');
                     }
