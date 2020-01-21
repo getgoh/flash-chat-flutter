@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flash_chat/components/message_bubble.dart';
 import 'package:flash_chat/components/chat_screen_messages_stream.dart';
 import 'package:flash_chat/helpers/shared_prefs.dart';
 import 'package:flash_chat/models/chat_arguments.dart';

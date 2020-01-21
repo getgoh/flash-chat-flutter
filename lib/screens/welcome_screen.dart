@@ -1,4 +1,4 @@
-import 'file:///F:/Get/Flutter/flash-chat-flutter/lib/components/rounded_button.dart';
+import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'login_screen.dart';

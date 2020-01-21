@@ -3,7 +3,6 @@ import 'package:flash_chat/components/input_text_field.dart';
 import 'package:flash_chat/components/rounded_button.dart';
 import 'package:flash_chat/helpers/shared_prefs.dart';
 import 'package:flash_chat/screens/chat_list_screen.dart';
-import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
